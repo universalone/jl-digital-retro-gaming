@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JL Digital Retro Gaming</title>
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: "Press Start 2P"; src: url("/PressStart2P.ttf") format("truetype"); font-display: swap; }
+  :root {
+    --navy: #2A1557;
+    --orange: #FF2E97;
+    --orange-hi: #FF5FB0;
+    --bg: #140B2E;
+    --panel: #1C1040;
+    --panel-2: #2A1557;
+    --line: #3B2770;
+    --text: #FFFFFF;
+    --muted: #B9A7E8;
+    --nes: #E0453A;
+    --snes: #8B7BE8;
+    --n64: #2FB36B;
+    --arcade: #F2A93B;
+    --gb: #9BBC0F;
+    --gbc: #E85D9E;
+    --genesis: #3E8EDE;
+    --gamegear: #2BB5B5;
+    --psx: #B8BFCC;
+    --pixel: "Press Start 2P", "Consolas", monospace;
+    --ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: radial-gradient(1200px 600px at 80% -10%, #7A2EFF44, transparent 60%),
+                radial-gradient(900px 500px at -10% 110%, #00E5FF1F, transparent 60%), var(--bg);
+    color: var(--text); font-family: var(--ui); overflow: hidden;
+    display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 84px 1fr 52px;
+    grid-template-areas: "top top" "rail main" "hints hints";
+  }
+  body::after { /* faint CRT scanlines */
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    background: repeating-linear-gradient(to bottom, #ffffff05 0 1px, transparent 1px 3px);
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus { outline: none; }
+
+  /* Top bar */
+  .top {
+    grid-area: top; display: flex; align-items: center; gap: 20px; padding: 0 28px;
+    border-bottom: 1px solid var(--line); background: #140B2Ecc; backdrop-filter: blur(8px);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; flex: none; }
+  .badge {
+    width: 48px; height: 48px; border-radius: 10px; background: var(--navy); flex: none;
+    display: grid; place-items: center; box-shadow: inset 0 -4px 0 #0003, 0 0 0 2px var(--orange);
+    font-family: var(--pixel); font-size: 15px; color: var(--orange-hi); letter-spacing: -1px;
+  }
+  .wordmark .small { font-size: 11px; font-weight: 700; letter-spacing: .32em; color: var(--muted); }
+  .wordmark .big { font-family: var(--pixel); font-size: 15px; margin-top: 7px; white-space: nowrap; }
+  .wordmark .big span { color: var(--orange-hi); }
+  .search {
+    margin-left: auto; display: flex; align-items: center; gap: 10px; flex: 0 1 420px; min-width: 160px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; height: 44px;
+  }
+  .search:focus-within { border-color: var(--orange); box-shadow: 0 0 0 3px #FF2E9744; }
+  .search input { flex: 1; min-width: 0; background: none; border: 0; color: var(--text); font: 500 15px var(--ui); outline: none; }
+  .search input::placeholder { color: var(--muted); }
+  .chip-btn {
+    display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--line); font-size: 13px; font-weight: 600; white-space: nowrap;
+  }
+  .chip-btn:focus, .chip-btn:hover { border-color: var(--orange); }
+  .switch { width: 30px; height: 18px; border-radius: 99px; background: var(--line); position: relative; transition: .2s; }
+  .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--muted); transition: .2s; }
+  .on .switch { background: var(--orange); }
+  .on .switch::after { left: 14px; background: #fff; }
+  .clock { font-family: var(--pixel); font-size: 12px; color: var(--muted); min-width: 64px; text-align: right; white-space: nowrap; }
+
+  /* Left rail */
+  .rail { grid-area: rail; padding: 22px 14px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+  .rail h4 { margin: 18px 12px 8px; font-size: 11px; letter-spacing: .2em; color: var(--muted); font-weight: 700; }
+  .rail h4:first-child { margin-top: 0; }
+  .nav {
+    display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; text-align: left;
+    font-weight: 600; font-size: 15px; color: #DCD2F5; border: 2px solid transparent;
+  }
+  .nav .dot { width: 10px; height: 10px; border-radius: 3px; background: var(--c, var(--muted)); flex: none; }
+  .nav .count { margin-left: auto; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .nav:hover { background: var(--panel); }
+  .nav.active { background: var(--panel-2); color: #fff; }
+  .nav.active .dot { box-shadow: 0 0 10px var(--c, var(--muted)); }
+  .nav:focus { border-color: var(--orange); }
+
+  /* Main */
+  main { grid-area: main; overflow-y: auto; padding: 28px 32px 40px; scroll-behavior: smooth; }
+  main::-webkit-scrollbar { width: 10px; }
+  main::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; }
+  .view-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+  .view-head h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -.01em; }
+  .view-head .sub { color: var(--muted); font-size: 14px; }
+  .section-title { margin: 34px 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+
+  .hero {
+    position: relative; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px;
+    min-height: 230px; padding: 30px 34px; border-radius: 20px; overflow: hidden; border: 2px solid transparent;
+    background: linear-gradient(120deg, var(--navy), #1A0B3D 70%); text-align: left; width: 100%;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; opacity: .5;
+    background: linear-gradient(transparent 55%, #FF2E9740),
+      repeating-linear-gradient(90deg, #ffffff10 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(0deg, #ffffff10 0 1px, transparent 1px 48px);
+    mask-image: linear-gradient(to top, #000, transparent 85%);
+  }
+  .hero > * { position: relative; }
+  .hero .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .24em; color: var(--orange-hi); }
+  .hero .title { font-size: clamp(24px, 3vw, 40px); font-weight: 800; margin: 10px 0 8px; line-height: 1.05; max-width: 900px; overflow-wrap: break-word; }
+  .hero .info { color: #DCD2F5; font-size: 15px; }
+  .hero .play {
+    display: flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 14px;
+    background: var(--orange); font-weight: 800; font-size: 17px; box-shadow: 0 6px 0 #8A1052;
+  }
+  .hero:focus { border-color: var(--orange-hi); box-shadow: 0 0 0 6px #FF2E9744; }
+  .hero:focus .play, .hero:hover .play { background: var(--orange-hi); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
+  .row { display: grid; grid-auto-flow: column; grid-auto-columns: 190px; gap: 18px; overflow-x: auto; padding: 6px 4px 14px; margin: -6px -4px 0; }
+  .row::-webkit-scrollbar { height: 8px; }
+  .row::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+
+  .tile {
+    --c: var(--muted);
+    display: flex; flex-direction: column; text-align: left; border-radius: 14px; overflow: hidden;
+    background: var(--panel); border: 2px solid var(--line); transition: transform .12s, border-color .12s, box-shadow .12s;
+  }
+  .tile.nes { --c: var(--nes); } .tile.snes { --c: var(--snes); } .tile.n64 { --c: var(--n64); } .tile.arcade { --c: var(--arcade); }
+  .tile.gb { --c: var(--gb); } .tile.gbc { --c: var(--gbc); } .tile.genesis { --c: var(--genesis); } .tile.gamegear { --c: var(--gamegear); } .tile.psx { --c: var(--psx); }
+  .tile:hover { border-color: #5B3FA0; }
+  .tile:focus, .tile.kbd-focus { transform: translateY(-4px) scale(1.03); border-color: var(--orange-hi); box-shadow: 0 14px 30px #0008, 0 0 0 4px #FF2E9755; }
+  .cover {
+    position: relative; aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center;
+    background: linear-gradient(160deg, color-mix(in srgb, var(--c) 34%, var(--navy)) 0%, #170C36 78%);
+  }
+  .cover::before { /* retro horizon grid */
+    content: ""; position: absolute; left: -20%; right: -20%; bottom: -10%; height: 55%;
+    background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--c) 45%, transparent) 0 1px, transparent 1px 22px),
+                repeating-linear-gradient(0deg, color-mix(in srgb, var(--c) 45%, transparent) 0 1px, transparent 1px 14px);
+    transform: perspective(160px) rotateX(55deg); transform-origin: bottom; opacity: .55;
+  }
+  .cover::after { /* sun */
+    content: ""; position: absolute; width: 46%; aspect-ratio: 1; border-radius: 50%; top: 14%;
+    background: linear-gradient(var(--orange-hi), color-mix(in srgb, var(--c) 60%, var(--orange)));
+    opacity: .22; filter: blur(.5px);
+  }
+  .cover.has-art::before, .cover.has-art::after { display: none; }
+  .cover .bg { position: absolute; inset: -12px; width: calc(100% + 24px); height: calc(100% + 24px); object-fit: cover; filter: blur(14px) brightness(.55) saturate(1.2); }
+  .cover .art { position: relative; z-index: 1; max-width: 88%; max-height: 90%; object-fit: contain; border-radius: 4px; box-shadow: 0 8px 20px #000a; }
+  .tile:focus .cover .art { box-shadow: 0 10px 26px #000c, 0 0 0 2px #ffffff22; }
+  /* minmax(0, 1fr): a long title wraps instead of pushing the Play button off the card */
+  .hero:has(.hero-art) { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; }
+  .hero > div { grid-column: 1; grid-row: 1; align-self: end; }
+  .hero .play { grid-row: 1; align-self: end; }
+  .hero-art { grid-column: 2; grid-row: 1; height: min(180px, 14vw); max-width: min(220px, 16vw); object-fit: contain; border-radius: 6px; transform: rotate(-3deg); box-shadow: 0 16px 40px #000b; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(30px) brightness(.4) saturate(1.3); opacity: .9; }
+  .mono { position: relative; z-index: 1; font-family: var(--pixel); font-size: 26px; color: #fff; text-shadow: 3px 3px 0 #0007; letter-spacing: -1px; }
+  .sys { position: absolute; z-index: 1; top: 10px; left: 10px; font-size: 10px; font-weight: 800; letter-spacing: .12em; padding: 4px 7px; border-radius: 6px; background: #0009; color: var(--c); }
+  .star { position: absolute; z-index: 1; top: 8px; right: 10px; font-size: 18px; color: var(--orange-hi); text-shadow: 0 1px 4px #000; }
+  .meta { padding: 12px 13px 14px; }
+  .meta .t { font-weight: 700; font-size: 14.5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+  .meta .r { margin-top: 6px; font-size: 12px; color: var(--muted); }
+
+  .systems { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .sys-card {
+    --c: var(--muted); text-align: left; padding: 20px; border-radius: 16px; border: 2px solid var(--line);
+    background: linear-gradient(150deg, color-mix(in srgb, var(--c) 22%, var(--panel)), var(--panel) 70%);
+  }
+  .sys-card .n { font-family: var(--pixel); font-size: 13px; color: var(--c); }
+  .sys-card .f { margin-top: 12px; font-weight: 700; font-size: 16px; }
+  .sys-card .k { margin-top: 4px; color: var(--muted); font-size: 13px; }
+  .sys-card:focus, .sys-card:hover { border-color: var(--orange-hi); }
+
+  .empty { color: var(--muted); padding: 30px; border: 2px dashed var(--line); border-radius: 16px; text-align: center; font-size: 15px; }
+
+  /* Hints bar */
+  .hints { grid-area: hints; display: flex; align-items: center; gap: 26px; padding: 0 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  .hints b { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; margin-right: 7px; border-radius: 12px; background: var(--panel-2); color: #fff; font-size: 11px; font-weight: 800; }
+  .hints .a { background: #2FB36B; } .hints .bb { background: #E0453A; } .hints .y { background: #F2A93B; color: #111; }
+  .hints .pad { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .pad i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .pad.live i { background: #2FB36B; box-shadow: 0 0 8px #2FB36B; }
+
+  /* Now playing overlay */
+  .overlay { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; background: #0A0518E6; backdrop-filter: blur(6px); }
+  .overlay.show { display: grid; }
+  .np { text-align: center; max-width: 720px; padding: 30px; }
+  .np .eyebrow { font-family: var(--pixel); font-size: 12px; color: var(--orange-hi); }
+  .np h2 { font-size: 40px; margin: 18px 0 12px; line-height: 1.1; }
+  .np p { color: var(--muted); font-size: 16px; line-height: 1.6; }
+  .np kbd { font: 700 13px var(--ui); background: var(--panel-2); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 6px; padding: 2px 8px; color: #fff; }
+  .blink { animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%) translateY(20px); opacity: 0; z-index: 60;
+    background: var(--panel-2); border: 1px solid var(--orange); padding: 12px 18px; border-radius: 12px; font-weight: 600; transition: .25s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+
+  /* Android app */
+  body { -webkit-tap-highlight-color: transparent; }
+  .only-native { display: none; }
+  .native .only-native { display: revert; }
+  .native .only-pc, .native #fsLaunch, .native #fsApp, .native .pad { display: none; }
+  .setup-mode .rail { display: none; }
+  .setup-mode main { grid-column: 1 / -1; grid-row: 2 / -1; }
+  .setup { display: grid; gap: 14px; max-width: 760px; }
+  .setup-step { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); }
+  .setup-step .check { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--line); font-weight: 800; color: var(--muted); }
+  .setup-step.done .check { background: #2FB36B; border-color: #2FB36B; color: #fff; }
+  .setup-step.done { opacity: .7; }
+  .setup-step b { font-size: 16px; }
+  .setup-step p { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .setup-step code { color: var(--orange-hi); }
+  .setup-step .chip-btn { margin-left: auto; flex: none; }
+  .setup-step .chip-btn:focus { border-color: var(--orange-hi); background: var(--panel-2); }
+
+  /* Narrow screens, e.g. a phone held upright */
+  @media (max-width: 900px) {
+    body { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr 52px; grid-template-areas: "top" "rail" "main" "hints"; }
+    .top { flex-wrap: wrap; padding: 12px 16px; gap: 10px; }
+    .search { width: 100%; order: 5; }
+    .rail { flex-direction: row; overflow-x: auto; padding: 8px 12px; border-right: 0; border-bottom: 1px solid var(--line); }
+    .rail h4 { display: none; }
+    .nav { white-space: nowrap; }
+    main { padding: 20px 16px; }
+    .hero, .hero:has(.hero-art) { grid-template-columns: minmax(0, 1fr) auto; }
+    .hero-art { display: none; }
+    .hero .title { font-size: 28px; }
+    .hints { overflow-x: auto; gap: 16px; padding: 0 16px; white-space: nowrap; }
+    .native { grid-template-rows: auto auto 1fr; grid-template-areas: "top" "rail" "main"; }
+    .native .hints { display: none; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  }
+
+  /* Short screens, e.g. a phone held sideways: compact bars, menu on the left */
+  @media (max-height: 500px) {
+    body, .native { grid-template-columns: 180px 1fr; grid-template-rows: 56px 1fr; grid-template-areas: "top top" "rail main"; }
+    .top { flex-wrap: nowrap; padding: 0 16px; gap: 12px; }
+    .search { width: auto; order: 0; }
+    .badge { width: 36px; height: 36px; font-size: 11px; }
+    .wordmark .small { font-size: 9px; } .wordmark .big { font-size: 11px; margin-top: 5px; }
+    .search, .chip-btn { height: 38px; }
+    .clock, .hints { display: none; }
+    .rail { flex-direction: column; overflow-y: auto; overflow-x: hidden; padding: 10px; border-right: 1px solid var(--line); border-bottom: 0; }
+    .rail h4 { display: block; margin: 10px 10px 6px; }
+    .nav { padding: 8px 10px; font-size: 14px; }
+    main { padding: 16px 18px 24px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .row { grid-auto-columns: 140px; gap: 12px; }
+    .hero, .hero:has(.hero-art) { min-height: 0; padding: 18px 22px; grid-template-columns: minmax(0, 1fr) auto auto; }
+    .hero-art { display: block; height: 110px; }
+    .hero .title { font-size: 24px; }
+    .view-head h1 { font-size: 22px; }
+    .setup-step { padding: 12px 16px; }
+  }
+
+  /* JL Digital Arcade: 8-bit headers and titles in arcade yellow with a neon glow */
+  :root { --title: #FFD23F; --glow: 0 0 12px #FF2E9788, 3px 3px 0 #0008; }
+  .wordmark .big, .view-head h1, .hero .title, .section-title, .rail h4, .hero .eyebrow {
+    font-family: var(--pixel); font-weight: 400; letter-spacing: 0; color: var(--title); text-shadow: var(--glow);
+  }
+  .wordmark .big span { color: #00E5FF; }
+  .view-head h1 { font-size: 22px; line-height: 1.4; }
+  .hero .title { font-size: clamp(16px, 2.2vw, 30px); line-height: 1.35; }
+  .section-title { font-size: 11px; }
+  .rail h4 { font-size: 9px; color: #00E5FF; }
+  .hero .eyebrow { font-size: 10px; color: #00E5FF; }
+  .nav:focus, .chip-btn:focus, .chip-btn:hover { box-shadow: 0 0 12px #FF2E9766; }
+  .native .chip-btn.only-native { display: flex; }
+  .link-input { width: 100%; margin-top: 10px; height: 44px; padding: 0 14px; border-radius: 12px; background: var(--panel);
+    border: 1px solid var(--line); color: var(--text); font: 500 15px var(--ui); outline: none; }
+  .link-input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px #FF2E9744; }
+  .dlbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; padding: 10px 20px; text-align: center; display: none;
+    background: #2A1557; border-bottom: 2px solid #00E5FF; color: #FFD23F; font: 400 12px var(--pixel); }
+  .dlbar.show { display: block; }
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="badge">JL</div>
+      <div class="wordmark">
+        <div class="small">JL DIGITAL</div>
+        <div class="big">RETRO <span>GAMING</span></div>
+      </div>
+    </div>
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B9A7E8" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search your games" autocomplete="off" data-nav>
+    </label>
+    <button class="chip-btn" id="fsLaunch" data-nav title="Start games in full screen"><span class="switch"></span>Full-screen games</button>
+    <button class="chip-btn" id="fsApp" data-nav title="Make this dashboard full screen (F11)">⛶ Dashboard</button>
+    <button class="chip-btn only-native" data-nav data-action="downloadGames" title="Get new games from your game pack link">⟳ Update games</button>
+    <button class="chip-btn only-native" data-nav data-action="openRetroArch" title="Controllers, video, more emulators">⚙ Settings</button>
+    <div class="clock" id="clock"></div>
+  </header>
+
+  <nav class="rail" id="rail"></nav>
+  <main id="main"></main>
+
+  <footer class="hints">
+    <span><b class="a">A</b>Play</span>
+    <span><b class="bb">B</b>Back</span>
+    <span><b class="y">Y</b>Favorite</span>
+    <span><b>LB</b><b>RB</b>Switch system</span>
+    <span class="only-pc"><b>Esc</b>twice in a game to come back here</span>
+    <span class="only-native"><b>Back</b>in a game opens the game menu</span>
+    <span class="pad" id="pad"><i></i><span id="padText">No controller</span></span>
+  </footer>
+
+  <div class="overlay" id="overlay">
+    <div class="np">
+      <div class="eyebrow" id="npEyebrow">LOADING<span class="blink">_</span></div>
+      <h2 id="npTitle"></h2>
+      <p class="only-native">Have fun! To come back, press Back, then choose Quit JL Retro.</p>
+      <p class="only-pc">Have fun! Press <kbd>Esc</kbd> twice to quit the game and come back to your dashboard.<br>Press <kbd>F1</kbd> in a game for the RetroArch menu (save states, controls).</p>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="dlbar" id="dlbar"></div>
+
+<script>
+const SYS_COLOR = { nes: "var(--nes)", snes: "var(--snes)", n64: "var(--n64)", arcade: "var(--arcade)",
+  gb: "var(--gb)", gbc: "var(--gbc)", genesis: "var(--genesis)", gamegear: "var(--gamegear)", psx: "var(--psx)" };
+const SYS_SHORT = { nes: "NES", snes: "SNES", n64: "N64", arcade: "ARCADE", gb: "GB", gbc: "GBC", genesis: "GENESIS", gamegear: "GG", psx: "PS1" };
+let lib = null, view = "home", query = "", running = null, launching = null, lastFocusId = null;
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Inside the Android app, a native bridge stands in for the PC's local server.
+const NATIVE = window.Android || null;
+
+async function api(path, body) {
+  if (NATIVE) return JSON.parse(NATIVE.call(path, JSON.stringify(body || {})));
+  const opts = body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {};
+  const r = await fetch(path, opts);
+  return r.json();
+}
+
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+function monogram(title) {
+  const words = title.replace(/[:\-–]/g, " ").split(/\s+/).filter((w) => w && !/^(the|a|an|of|and|in|&)$/i.test(w));
+  if (words.length === 1) return words[0].slice(0, /^\d+$/.test(words[0]) ? 4 : 3).toUpperCase();
+  return words.slice(0, 3).map((w) => w[0]).join("").toUpperCase();
+}
+
+function ago(ts) {
+  const s = Date.now() / 1000 - ts;
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))} min ago`;
+  if (s < 86400) return `${Math.round(s / 3600)} hr ago`;
+  const d = Math.round(s / 86400);
+  return d === 1 ? "yesterday" : `${d} days ago`;
+}
+
+function playsText(g) {
+  const h = lib.history[g.id];
+  if (!h) return g.region || "";
+  return [g.region, `${h.plays} play${h.plays === 1 ? "" : "s"}`].filter(Boolean).join(" · ");
+}
+
+function tile(g) {
+  const fav = lib.favorites.includes(g.id);
+  return `<button class="tile ${g.system}" data-nav data-id="${g.id}">
+    <div class="cover${g.art ? " has-art" : ""}">${g.art
+      ? `<img class="bg" src="/art/${g.id}" alt="" loading="lazy"><img class="art" src="/art/${g.id}" alt="" loading="lazy">`
+      : `<span class="mono">${esc(monogram(g.title))}</span>`}<span class="sys">${SYS_SHORT[g.system]}</span>${fav ? '<span class="star">★</span>' : ""}</div>
+    <div class="meta"><div class="t">${esc(g.title)}</div><div class="r">${esc(playsText(g))}</div></div>
+  </button>`;
+}
+
+function filtered(list) {
+  if (!query) return list;
+  const q = query.toLowerCase();
+  return list.filter((g) => g.title.toLowerCase().includes(q));
+}
+
+function recent() {
+  return lib.games.filter((g) => lib.history[g.id]).sort((a, b) => lib.history[b.id].last - lib.history[a.id].last);
+}
+
+function renderRail() {
+  const count = (id) => lib.games.filter((g) => g.system === id).length;
+  const item = (id, label, c, n) =>
+    `<button class="nav ${view === id ? "active" : ""}" data-nav data-view="${id}" style="--c:${c}"><span class="dot"></span>${label}${n != null ? `<span class="count">${n}</span>` : ""}</button>`;
+  $("#rail").innerHTML =
+    `<h4>LIBRARY</h4>` +
+    item("home", "Home", "var(--orange)") +
+    item("all", "All games", "#DCD2F5", lib.games.length) +
+    item("favorites", "Favorites", "var(--orange-hi)", lib.favorites.length) +
+    `<h4>SYSTEMS</h4>` +
+    lib.systems.map((s) => item(s.id, s.name, SYS_COLOR[s.id], count(s.id))).join("");
+}
+
+function renderMain() {
+  const m = $("#main");
+  if (query) {
+    const res = filtered(lib.games);
+    m.innerHTML = `<div class="view-head"><h1>Results for “${esc(query)}”</h1><span class="sub">${res.length} game${res.length === 1 ? "" : "s"}</span></div>` +
+      (res.length ? `<div class="grid">${res.map(tile).join("")}</div>` : `<div class="empty">No games match that search.</div>`);
+    return;
+  }
+  if (view === "home") {
+    const rec = recent();
+    const favs = lib.games.filter((g) => lib.favorites.includes(g.id));
+    let html = "";
+    if (rec.length) {
+      const g = rec[0], h = lib.history[g.id];
+      html += `<button class="hero" data-nav data-id="${g.id}">
+        ${g.art ? `<img class="hero-bg" src="/art/${g.id}" alt=""><img class="hero-art" src="/art/${g.id}" alt="">` : ""}
+        <div><div class="eyebrow">JUMP BACK IN · ${SYS_SHORT[g.system]}</div><div class="title">${esc(g.title)}</div>
+        <div class="info">Last played ${ago(h.last)} · ${h.plays} play${h.plays === 1 ? "" : "s"}</div></div>
+        <span class="play">▶ PLAY</span></button>`;
+    } else {
+      html += `<div class="view-head"><h1>Welcome to JL Digital Retro Gaming</h1></div>
+        <div class="empty">Pick a system below or press <b>RB</b> to browse. Games you play will show up here.</div>`;
+    }
+    if (rec.length > 1) html += `<div class="section-title">Recently played</div><div class="row">${rec.slice(1, 13).map(tile).join("")}</div>`;
+    if (favs.length) html += `<div class="section-title">Favorites</div><div class="row">${favs.map(tile).join("")}</div>`;
+    html += `<div class="section-title">Systems</div><div class="systems">` + lib.systems.map((s) => {
+      const n = lib.games.filter((g) => g.system === s.id).length;
+      return `<button class="sys-card" data-nav data-view="${s.id}" style="--c:${SYS_COLOR[s.id]}"><div class="n">${SYS_SHORT[s.id]}</div><div class="f">${esc(s.full)}</div><div class="k">${n} games</div></button>`;
+    }).join("") + `</div>`;
+    m.innerHTML = html;
+    return;
+  }
+  let list, title;
+  if (view === "all") { list = lib.games; title = "All games"; }
+  else if (view === "favorites") { list = lib.games.filter((g) => lib.favorites.includes(g.id)); title = "Favorites"; }
+  else { list = lib.games.filter((g) => g.system === view); title = lib.systems.find((s) => s.id === view).full; }
+  m.innerHTML = `<div class="view-head"><h1>${esc(title)}</h1><span class="sub">${list.length} game${list.length === 1 ? "" : "s"}</span></div>` +
+    (list.length ? `<div class="grid">${list.map(tile).join("")}</div>`
+      : `<div class="empty">${view === "favorites" ? "No favorites yet. Press Y on a game (or F on the keyboard) to add one." : "No games here yet."}</div>`);
+}
+
+function render(focusFirst) {
+  renderRail(); renderMain();
+  const fs = lib.settings.fullscreen !== false;
+  $("#fsLaunch").classList.toggle("on", fs);
+  if (focusFirst) {
+    const target = (lastFocusId && $(`#main [data-id="${lastFocusId}"]`)) || $("#main [data-nav]");
+    if (target) target.focus();
+  }
+}
+
+function setView(v) { view = v; query = ""; $("#q").value = ""; render(true); $("#main").scrollTop = 0; }
+
+async function launch(id) {
+  if (running || launching) return;
+  const g = lib.games.find((x) => x.id === id);
+  lastFocusId = id; launching = id;
+  $("#npTitle").textContent = g.title;
+  $("#npEyebrow").innerHTML = `LOADING<span class="blink">_</span>`;
+  $("#overlay").classList.add("show");
+  const r = await api("/api/launch", { id });
+  if (!r.ok) { launching = null; $("#overlay").classList.remove("show"); toast(r.error || "Could not start that game."); }
+  else if (NATIVE) setTimeout(() => { launching = null; $("#overlay").classList.remove("show"); }, 4000);
+}
+
+async function toggleFav(id) {
+  if (!id) return;
+  const on = !lib.favorites.includes(id);
+  const r = await api("/api/favorite", { id, on });
+  lib.favorites = r.favorites; lastFocusId = id;
+  toast(on ? "Added to favorites" : "Removed from favorites");
+  const keep = document.activeElement?.dataset.id;
+  render(false);
+  const again = keep && document.querySelector(`[data-id="${keep}"]`);
+  if (again) again.focus();
+}
+
+async function poll() {
+  try {
+    const s = await api("/api/status");
+    if (s.running) {
+      running = s.running; launching = null;
+      $("#npEyebrow").textContent = "NOW PLAYING";
+      $("#overlay").classList.add("show");
+    } else if (running) {
+      running = null;
+      $("#overlay").classList.remove("show");
+      lib = await api("/api/library");
+      render(true);
+    }
+  } catch (e) { /* server restarting */ }
+}
+
+/* Spatial navigation shared by keyboard and controller */
+function navigable() {
+  return [...document.querySelectorAll("[data-nav]")].filter((el) => el.offsetParent !== null);
+}
+function move(dir) {
+  const els = navigable(), cur = document.activeElement;
+  if (!els.includes(cur)) { ($("#main [data-nav]") || els[0])?.focus(); return; }
+  const a = cur.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+  let best = null, bestScore = Infinity;
+  for (const el of els) {
+    if (el === cur) continue;
+    const b = el.getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2;
+    const dx = bx - ax, dy = by - ay;
+    let primary, secondary;
+    if (dir === "right") { if (b.left < a.right - 4) continue; primary = dx; secondary = dy; }
+    else if (dir === "left") { if (b.right > a.left + 4) continue; primary = -dx; secondary = dy; }
+    else if (dir === "down") { if (b.top < a.bottom - 4) continue; primary = dy; secondary = dx; }
+    else { if (b.bottom > a.top + 4) continue; primary = -dy; secondary = dx; }
+    const score = primary + Math.abs(secondary) * 2.2;
+    if (score < bestScore) { bestScore = score; best = el; }
+  }
+  if (best) { best.focus({ preventScroll: true }); best.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" }); }
+}
+function cycleView(step) {
+  const order = ["home", "all", "favorites", ...lib.systems.map((s) => s.id)];
+  setView(order[(order.indexOf(view) + step + order.length) % order.length]);
+}
+function back() {
+  if (query || document.activeElement === $("#q")) { query = ""; $("#q").value = ""; render(true); return; }
+  if (view !== "home") setView("home");
+}
+
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-id],[data-view]");
+  if (!el) return;
+  if (el.dataset.id) launch(el.dataset.id); else setView(el.dataset.view);
+});
+document.addEventListener("keydown", (e) => {
+  if (running || launching) return;
+  const inSearch = document.activeElement === $("#q");
+  const typing = document.activeElement?.tagName === "INPUT";  // search box or the game pack link
+  const dirs = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
+  if (dirs[e.key] && !(typing && (e.key === "ArrowLeft" || e.key === "ArrowRight"))) { e.preventDefault(); move(dirs[e.key]); }
+  else if (e.key === "Escape") { e.preventDefault(); back(); }
+  else if (!typing && (e.key === "f" || e.key === "F")) toggleFav(document.activeElement?.dataset.id);
+  else if (!typing && e.key === "/") { e.preventDefault(); $("#q").focus(); }
+  else if (e.key === "Enter" && inSearch) { $("#main [data-nav]")?.focus(); }
+});
+$("#q").addEventListener("input", (e) => { query = e.target.value.trim(); renderMain(); });
+$("#fsLaunch").addEventListener("click", async () => {
+  const r = await api("/api/settings", { fullscreen: !(lib.settings.fullscreen !== false) });
+  lib.settings = r.settings; render(false);
+  toast(lib.settings.fullscreen ? "Games will start full screen" : "Games will start in a window");
+});
+$("#fsApp").addEventListener("click", () => {
+  if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen();
+});
+
+/* Controller support (standard mapping: 0 A, 1 B, 3 Y, 4 LB, 5 RB, 12-15 d-pad) */
+const held = {};
+function pressed(id, isDown, repeat) {
+  const now = performance.now(), h = held[id];
+  if (!isDown) { delete held[id]; return false; }
+  if (!h) { held[id] = { next: now + 380 }; return true; }
+  if (repeat && now >= h.next) { h.next = now + 110; return true; }
+  return false;
+}
+function padLoop() {
+  const pads = [...(navigator.getGamepads?.() || [])].filter(Boolean);
+  const pad = pads[0];
+  $("#pad").classList.toggle("live", !!pad);
+  $("#padText").textContent = pad ? "Controller connected" : "No controller";
+  if (pad && !running && !launching && document.hasFocus()) {
+    const b = (i) => !!pad.buttons[i]?.pressed;
+    const ax = pad.axes[0] || 0, ay = pad.axes[1] || 0;
+    if (pressed("up", b(12) || ay < -0.55, true)) move("up");
+    if (pressed("down", b(13) || ay > 0.55, true)) move("down");
+    if (pressed("left", b(14) || ax < -0.55, true)) move("left");
+    if (pressed("right", b(15) || ax > 0.55, true)) move("right");
+    if (pressed("a", b(0))) { const el = document.activeElement; if (el?.matches("[data-nav]")) el.click(); else move("down"); }
+    if (pressed("b", b(1))) back();
+    if (pressed("y", b(3))) toggleFav(document.activeElement?.dataset.id);
+    if (pressed("lb", b(4))) cycleView(-1);
+    if (pressed("rb", b(5))) cycleView(1);
+  } else if (pad) {
+    for (const k in held) delete held[k];
+  }
+  requestAnimationFrame(padLoop);
+}
+
+function tick() {
+  $("#clock").textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
+
+/* Android app: the native side forwards controller buttons and tells us when we're back on screen. */
+window.jlInput = (a) => {
+  if (running || launching || !lib?.games) return false;
+  if (["up", "down", "left", "right"].includes(a)) { move(a); return true; }
+  if (a === "a") { const el = document.activeElement; if (el?.matches("[data-nav]")) el.click(); else move("down"); return true; }
+  if (a === "b") { if (query || view !== "home") { back(); return true; } return false; }
+  if (a === "y") { toggleFav(document.activeElement?.dataset.id); return true; }
+  if (a === "lb") { cycleView(-1); return true; }
+  if (a === "rb") { cycleView(1); return true; }
+  return false;
+};
+window.jlProgress = (text) => {
+  const bar = $("#dlbar");
+  bar.textContent = text || "";
+  bar.classList.toggle("show", !!text);
+};
+window.jlResume = () => { launching = null; $("#overlay").classList.remove("show"); start(); };
+
+function renderSetup(s) {
+  const step = (done, title, text, action, label) => `<div class="setup-step ${done ? "done" : ""}">
+      <span class="check">${done ? "✓" : ""}</span><div><b>${title}</b><p>${text}</p></div>
+      ${!done && action ? `<button class="chip-btn" data-nav data-action="${action}">${label}</button>` : ""}</div>`;
+  $("#rail").innerHTML = "";
+  $("#main").innerHTML = `<div class="view-head"><h1>Let's get you set up</h1></div><div class="setup">
+    ${step(s.retroarch, "Game engine", "Your games run in the built-in JL Retro engine.", "", "")}
+    ${step(s.permission, "Allow access to your games", "Lets this app read the JLRetro folder on your phone.", "grantAccess", "Allow access")}
+    ${s.library ? step(true, "Your games", "", "", "") : `<div class="setup-step"><span class="check"></span><div><b>Download your games</b>
+      <p>Paste the share link to your JL game pack (Dropbox, Google Drive or OneDrive). Or copy the JLRetro folder from your PC to <code>${esc(s.root)}</code>.</p>
+      <input class="link-input" id="gamesUrl" type="url" placeholder="https://..." autocomplete="off" data-nav></div>
+      <button class="chip-btn" data-nav data-action="downloadGames" data-input="#gamesUrl">${s.downloading ? "Downloading..." : "Download"}</button></div>`}
+    ${s.cores ? `<div class="setup-step"><span class="check">i</span><div><b>Emulators</b><p>These download by themselves the first time you play each system: ${esc(s.cores)}.</p></div></div>` : ""}
+  </div>`;
+  $("#main [data-nav]")?.focus();
+}
+
+async function start() {
+  if (NATIVE) {
+    const s = await api("/api/status");
+    document.body.classList.toggle("setup-mode", !s.ready);
+    if (!s.ready) { lib = null; renderSetup(s); return; }
+  }
+  lib = await api("/api/library");
+  render(true);
+}
+
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-action]");
+  const input = el && el.dataset.input ? $(el.dataset.input) : null;
+  if (el && NATIVE) api("/api/action", { name: el.dataset.action, value: input ? input.value : "" }).then((r) => r.toast && toast(r.toast));
+});
+
+if (NATIVE) document.body.classList.add("native");
+else window.addEventListener("pagehide", () => navigator.sendBeacon("/api/bye", new Blob(["{}"], { type: "text/plain" })));
+
+(async function init() {
+  await start();
+  tick(); setInterval(tick, 10000);
+  if (!NATIVE) { setInterval(poll, 2000); requestAnimationFrame(padLoop); }
+})();
+</script>
+</body>
+</html>

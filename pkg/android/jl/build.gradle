@@ -1,0 +1,104 @@
+// JL Digital Retro Gaming: the launcher and RetroArch 1.22.2 built as one app.
+// RetroArch's own Java and native sources are used from ../phoenix and ../phoenix-common.
+plugins {
+    id 'com.android.application' version '8.5.2'
+}
+
+android {
+    // RetroArch's Java code lives in com.retroarch and expects its BuildConfig/R there.
+    namespace 'com.retroarch'
+    compileSdk 34
+    ndkVersion '22.0.7026061'
+
+    defaultConfig {
+        // Same id as the old launcher, so it upgrades in place and keeps favorites and file access.
+        applicationId 'com.jldigital.retrogaming'
+        minSdk 24
+        targetSdk 28
+        versionCode 111
+        versionName '2.1.0'
+        resValue 'string', 'app_name', 'JL Digital Retro Gaming'
+        buildConfigField 'boolean', 'PLAY_STORE_BUILD', 'false'
+        externalNativeBuild {
+            ndkBuild {
+                arguments "-j${Runtime.runtime.availableProcessors()}"
+            }
+        }
+    }
+
+    // Release signing key; kept outside the source tree (see D:/jlra/signing/README.txt), never published.
+    def keyProps = new Properties()
+    def keyFile = file('D:/jlra/signing/keystore.properties')
+    if (keyFile.exists()) keyFile.withInputStream { keyProps.load(it) }
+    signingConfigs {
+        if (keyFile.exists()) {
+            release {
+                storeFile file(keyProps['storeFile'])
+                storePassword keyProps['storePassword']
+                keyAlias keyProps['keyAlias']
+                keyPassword keyProps['keyPassword']
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (keyFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions = ['abi']
+    productFlavors {
+        // The download: one APK for every device; Android installs the right half.
+        universal {
+            dimension 'abi'
+            ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
+        }
+        // Phone, NVIDIA Shield
+        arm64 {
+            dimension 'abi'
+            ndk { abiFilters 'arm64-v8a' }
+        }
+        // onn 4K Pro, Mi Box (32-bit userspace)
+        arm32 {
+            dimension 'abi'
+            ndk { abiFilters 'armeabi-v7a' }
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            assets.srcDirs = ['assets']
+            java.srcDirs = ['src', '../phoenix/src', '../phoenix-common/src',
+                            '../../../libretro-common/vfs/saf/src', '../play-core-stub']
+            jniLibs.srcDirs = []
+            res.srcDirs = ['res', '../phoenix/res']
+            java.exclude 'playStoreNormal/**', 'playStorePlus/**'
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path '../phoenix-common/jni/Android.mk'
+        }
+    }
+
+    packagingOptions {
+        jniLibs { useLegacyPackaging true }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
