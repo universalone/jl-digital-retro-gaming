@@ -135,6 +135,17 @@ public final class RetroActivityFuture extends RetroActivityCamera {
   public void onDestroy() {
     super.onDestroy();
     isRunning = false;
+
+    // JL Digital: leaving a game or Settings goes back to the game library
+    if (isFinishing()) {
+      Intent library = new Intent().setClassName(this, "com.jldigital.retrogaming.MainActivity")
+          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      try {
+        startActivity(library);
+      } catch (Exception e) {
+        Log.w("RetroActivityFuture", "Couldn't return to the library", e);
+      }
+    }
   }
 
   @Override

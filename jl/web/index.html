@@ -29,6 +29,9 @@
     --genesis: #3E8EDE;
     --gamegear: #2BB5B5;
     --psx: #B8BFCC;
+    --wii: #8FD3FF;
+    --gamecube: #7B5CFF;
+    --dreamcast: #FF8A3D;
     --pixel: "Press Start 2P", "Consolas", monospace;
     --ui: "Inter", "Segoe UI", system-ui, sans-serif;
   }
@@ -139,6 +142,7 @@
   }
   .tile.nes { --c: var(--nes); } .tile.snes { --c: var(--snes); } .tile.n64 { --c: var(--n64); } .tile.arcade { --c: var(--arcade); }
   .tile.gb { --c: var(--gb); } .tile.gbc { --c: var(--gbc); } .tile.genesis { --c: var(--genesis); } .tile.gamegear { --c: var(--gamegear); } .tile.psx { --c: var(--psx); }
+  .tile.wii { --c: var(--wii); } .tile.gamecube { --c: var(--gamecube); } .tile.dreamcast { --c: var(--dreamcast); }
   .tile:hover { border-color: #5B3FA0; }
   .tile:focus, .tile.kbd-focus { transform: translateY(-4px) scale(1.03); border-color: var(--orange-hi); box-shadow: 0 14px 30px #0008, 0 0 0 4px #FF2E9755; }
   .cover {
@@ -285,6 +289,27 @@
   .dlbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; padding: 10px 20px; text-align: center; display: none;
     background: #2A1557; border-bottom: 2px solid #00E5FF; color: #FFD23F; font: 400 12px var(--pixel); }
   .dlbar.show { display: block; }
+
+  /* Breathing neon, like the Settings menu cursor: borders pulse pink <-> cyan,
+     game titles get a slow colour flow. Only the featured game and the focused
+     card animate, so TV boxes stay smooth. */
+  @keyframes breathe {
+    0%, 100% { border-color: #FF2E97; box-shadow: 0 0 0 3px #FF2E9733, 0 0 22px #FF2E9766; }
+    50%      { border-color: #00E5FF; box-shadow: 0 0 0 3px #00E5FF33, 0 0 22px #00E5FF66; }
+  }
+  @keyframes title-flow { to { background-position: 200% 0; } }
+  .hero { border-width: 2px; border-style: solid; animation: breathe 3.2s ease-in-out infinite; }
+  .hero:focus { animation-duration: 1.8s; }
+  .tile:focus, .tile.kbd-focus, .tile:hover { animation: breathe 1.8s ease-in-out infinite; }
+  .hero .title, .tile:focus .meta .t, .tile.kbd-focus .meta .t, .tile:hover .meta .t {
+    background: linear-gradient(90deg, #FFD23F, #FF2E97, #00E5FF, #FFD23F) 0 0 / 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: title-flow 4s linear infinite;
+  }
+  .hero .title { text-shadow: none; filter: drop-shadow(3px 3px 0 #0008) drop-shadow(0 0 10px #FF2E9755); }
+  @media (prefers-reduced-motion: reduce) {
+    .hero, .tile, .hero .title, .tile .meta .t { animation: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -302,7 +327,6 @@
     </label>
     <button class="chip-btn" id="fsLaunch" data-nav title="Start games in full screen"><span class="switch"></span>Full-screen games</button>
     <button class="chip-btn" id="fsApp" data-nav title="Make this dashboard full screen (F11)">⛶ Dashboard</button>
-    <button class="chip-btn only-native" data-nav data-action="downloadGames" title="Get new games from your game pack link">⟳ Update games</button>
     <button class="chip-btn only-native" data-nav data-action="openRetroArch" title="Controllers, video, more emulators">⚙ Settings</button>
     <div class="clock" id="clock"></div>
   </header>
@@ -333,8 +357,10 @@
 
 <script>
 const SYS_COLOR = { nes: "var(--nes)", snes: "var(--snes)", n64: "var(--n64)", arcade: "var(--arcade)",
-  gb: "var(--gb)", gbc: "var(--gbc)", genesis: "var(--genesis)", gamegear: "var(--gamegear)", psx: "var(--psx)" };
-const SYS_SHORT = { nes: "NES", snes: "SNES", n64: "N64", arcade: "ARCADE", gb: "GB", gbc: "GBC", genesis: "GENESIS", gamegear: "GG", psx: "PS1" };
+  gb: "var(--gb)", gbc: "var(--gbc)", genesis: "var(--genesis)", gamegear: "var(--gamegear)", psx: "var(--psx)",
+  wii: "var(--wii)", gamecube: "var(--gamecube)", dreamcast: "var(--dreamcast)" };
+const SYS_SHORT = { nes: "NES", snes: "SNES", n64: "N64", arcade: "ARCADE", gb: "GB", gbc: "GBC", genesis: "GENESIS", gamegear: "GG", psx: "PS1",
+  wii: "WII", gamecube: "GCN", dreamcast: "DC" };
 let lib = null, view = "home", query = "", running = null, launching = null, lastFocusId = null;
 
 const $ = (s) => document.querySelector(s);

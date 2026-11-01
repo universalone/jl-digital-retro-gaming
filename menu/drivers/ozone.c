@@ -44,6 +44,7 @@
 #include "../../gfx/gfx_thumbnail.h"
 
 #include "../../config.def.h"
+#include "../../command.h"
 #include "../../configuration.h"
 #include "../../content.h"
 #include "../../core_info.h"
@@ -8745,6 +8746,21 @@ static enum menu_action ozone_parse_menu_entry_action(
          /* Limit previous sidebar selection if playlist is deleted */
          if (ozone->categories_selection_ptr > ozone->system_tab_end + ozone->horizontal_list.size)
             ozone->categories_selection_ptr = ozone->system_tab_end + ozone->horizontal_list.size;
+
+#ifdef ANDROID
+         /* JL Digital: Back at the top of the menu leaves it - back into
+          * the running game, or out of Settings to the game library */
+         if (     (ozone->flags & OZONE_FLAG_CURSOR_IN_SIDEBAR)
+               || menu_stack_size == 1)
+         {
+            if (ozone->flags & OZONE_FLAG_LIBRETRO_RUNNING)
+               command_event(CMD_EVENT_MENU_TOGGLE, NULL);
+            else
+               command_event(CMD_EVENT_QUIT, NULL);
+            new_action = MENU_ACTION_NOOP;
+            break;
+         }
+#endif
 
          if (ozone->flags & OZONE_FLAG_CURSOR_IN_SIDEBAR)
          {

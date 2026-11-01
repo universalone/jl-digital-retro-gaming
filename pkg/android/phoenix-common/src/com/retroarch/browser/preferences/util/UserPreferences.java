@@ -148,6 +148,9 @@ public final class UserPreferences
 			config.setString("bundle_assets_dst_path", dstPath);
 			config.setString("bundle_assets_dst_path_subdir", dstPathSubdir);
 			config.setInt("bundle_assets_extract_version_current", version);
+
+			// JL Digital: on-screen buttons go away while a controller is connected
+			config.setBoolean("input_overlay_hide_when_gamepad_connected", true);
 		}
 		catch (NameNotFoundException ignored)
 		{

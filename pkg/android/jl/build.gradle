@@ -15,8 +15,8 @@ android {
         applicationId 'com.jldigital.retrogaming'
         minSdk 24
         targetSdk 28
-        versionCode 111
-        versionName '2.1.0'
+        versionCode 113
+        versionName '2.2.1'
         resValue 'string', 'app_name', 'JL Digital Retro Gaming'
         buildConfigField 'boolean', 'PLAY_STORE_BUILD', 'false'
         externalNativeBuild {

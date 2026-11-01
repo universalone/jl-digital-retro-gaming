@@ -588,7 +588,7 @@
 
 /* Automatically disable overlays when a
  * controller is connected in port 1 */
-#define DEFAULT_OVERLAY_HIDE_WHEN_GAMEPAD_CONNECTED false
+#define DEFAULT_OVERLAY_HIDE_WHEN_GAMEPAD_CONNECTED true
 
 #define DEFAULT_OVERLAY_SHOW_MOUSE_CURSOR false
 
