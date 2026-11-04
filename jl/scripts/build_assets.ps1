@@ -1,5 +1,5 @@
 # Fills pkg\android\jl\assets for the all-in-one app:
-#   assets\assets\{ozone,xmb,pkg,sounds}   JL-branded menu assets (Ozone's icons live in xmb\monochrome) (RetroArch unpacks APK "assets/*" into <dataDir>)
+#   assets\assets\{ozone,xmb,pkg,sounds}   EchoForge-branded menu assets (Ozone's icons live in xmb\monochrome) (RetroArch unpacks APK "assets/*" into <dataDir>)
 #   assets\{autoconfig,info,filters,overlays}   controller profiles, core info, touch overlays (from the official APK)
 #   assets\index.html, icon.png, PressStart2P.ttf   the game library page, served by MainActivity
 # Bump versionCode in build.gradle after changing these, or devices keep their old unpacked copy.
@@ -30,7 +30,7 @@ try {
 Copy-Item 'D:\jlra\fonts\PressStart2P-Regular.ttf' "$menu\ozone\bold.ttf" -Force
 Copy-Item 'D:\jlra\fonts\OFL.txt' "$menu\ozone\bold-font-license.txt" -Force
 
-# JL Digital logo in the menu header (drawn with a white tint, so it keeps its colors).
+# EchoForge logo in the menu header (drawn with a white tint, so it keeps its colors).
 Add-Type -AssemblyName System.Drawing
 $icon = [System.Drawing.Image]::FromFile("$web\icon.png")
 $bmp = New-Object System.Drawing.Bitmap 96, 96
@@ -40,7 +40,7 @@ $g.DrawImage($icon, 0, 0, 96, 96)
 $bmp.Save("$menu\ozone\png\retroarch.png", [System.Drawing.Imaging.ImageFormat]::Png)
 $g.Dispose(); $bmp.Dispose(); $icon.Dispose()
 
-# White "JL" mark (tinted by the menu) in place of RetroArch's invader icon.
+# White "EF" mark (tinted by the menu) in place of RetroArch's invader icon.
 $fonts = New-Object System.Drawing.Text.PrivateFontCollection
 $fonts.AddFontFile('D:\jlra\fonts\PressStart2P-Regular.ttf')
 foreach ($icon in @(@("$menu\ozone\png\sidebar\retroarch.png", 64), @("$menu\xmb\monochrome\png\retroarch.png", 256))) {
@@ -55,7 +55,7 @@ foreach ($icon in @(@("$menu\ozone\png\sidebar\retroarch.png", 64), @("$menu\xmb
     $font = New-Object System.Drawing.Font $fonts.Families[0], ($size * 0.30), ([System.Drawing.GraphicsUnit]::Pixel)
     $fmt = New-Object System.Drawing.StringFormat
     $fmt.Alignment = 'Center'; $fmt.LineAlignment = 'Center'
-    $g.DrawString('JL', $font, [System.Drawing.Brushes]::White, (New-Object System.Drawing.RectangleF 0, ($size * 0.04), $size, $size), $fmt)
+    $g.DrawString('EF', $font, [System.Drawing.Brushes]::White, (New-Object System.Drawing.RectangleF 0, ($size * 0.04), $size, $size), $fmt)
     $bmp.Save($icon[0], [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose(); $pen.Dispose(); $font.Dispose()
 }

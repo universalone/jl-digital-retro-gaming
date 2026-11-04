@@ -681,17 +681,17 @@ static float ozone_sidebar_gradient_bottom_light[16]                  = {
 };
 
 static float ozone_sidebar_gradient_top_dark[16]                      = {
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
 };
 
 static float ozone_sidebar_gradient_bottom_dark[16]                   = {
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
 };
 
 static float ozone_sidebar_gradient_top_nord[16]                      = {
@@ -833,10 +833,10 @@ static float ozone_sidebar_background_light[16]                       = {
 };
 
 static float ozone_sidebar_background_dark[16]                        = {
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
-   0.0510f, 0.0275f, 0.1255f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
+   0.0275f, 0.0314f, 0.0431f, 1.00f,
 };
 
 static float ozone_sidebar_background_nord[16]                        = {
@@ -922,10 +922,10 @@ static float ozone_background_libretro_running_light[16]              = {
 };
 
 static float ozone_background_libretro_running_dark[16]               = {
-   0.0784f, 0.0431f, 0.1804f, 0.80f,
-   0.0784f, 0.0431f, 0.1804f, 0.80f,
-   0.0784f, 0.0431f, 0.1804f, 1.00f,
-   0.0784f, 0.0431f, 0.1804f, 1.00f,
+   0.0431f, 0.0471f, 0.0627f, 0.80f,
+   0.0431f, 0.0471f, 0.0627f, 0.80f,
+   0.0431f, 0.0471f, 0.0627f, 1.00f,
+   0.0431f, 0.0471f, 0.0627f, 1.00f,
 };
 
 static float ozone_background_libretro_running_nord[16]               = {
@@ -1002,8 +1002,8 @@ static float ozone_border_gray[16]                 = COLOR_HEX_TO_FLOAT(0x303030
 static float ozone_border_0_light[16]              = COLOR_HEX_TO_FLOAT(0x50EFD9, 1.00);
 static float ozone_border_1_light[16]              = COLOR_HEX_TO_FLOAT(0x0DB6D5, 1.00);
 
-static float ozone_border_0_dark[16]               = COLOR_HEX_TO_FLOAT(0xFF2E97, 1.00);
-static float ozone_border_1_dark[16]               = COLOR_HEX_TO_FLOAT(0x00E5FF, 1.00);
+static float ozone_border_0_dark[16]               = COLOR_HEX_TO_FLOAT(0xFF6A1F, 1.00);
+static float ozone_border_1_dark[16]               = COLOR_HEX_TO_FLOAT(0xE5145F, 1.00);
 
 static float ozone_border_0_nord[16]               = COLOR_HEX_TO_FLOAT(0x5E81AC, 1.0f);
 static float ozone_border_1_nord[16]               = COLOR_HEX_TO_FLOAT(0x88C0D0, 1.0f);
@@ -1068,24 +1068,24 @@ static ozone_theme_t ozone_theme_light = {
    "light"                                               /* name */
 };
 
-/* JL Digital Arcade: neon pink/cyan on deep indigo (replaces "Basic Black") */
+/* EchoForge Arcade: ember, hot pink and gold on forge black (replaces "Basic Black") */
 static ozone_theme_t ozone_theme_dark = {
-   COLOR_HEX_TO_FLOAT(0x140B2E, 1.00f),                  /* background */
+   COLOR_HEX_TO_FLOAT(0x0B0C10, 1.00f),                  /* background */
    ozone_background_libretro_running_dark,               /* background_libretro_running */
 
-   COLOR_HEX_TO_FLOAT(0xFF2E97, 1.00f),                  /* header_footer_separator */
+   COLOR_HEX_TO_FLOAT(0xFF6A1F, 1.00f),                  /* header_footer_separator */
    COLOR_HEX_TO_FLOAT(0xFFFFFF, 1.00f),                  /* text */
-   COLOR_HEX_TO_FLOAT(0x2A1557, 1.00f),                  /* selection */
-   COLOR_HEX_TO_FLOAT(0x00E5FF, 1.00f),                  /* selection_border */
-   COLOR_HEX_TO_FLOAT(0x3B2770, 1.00f),                  /* entries_border */
+   COLOR_HEX_TO_FLOAT(0x241A1E, 1.00f),                  /* selection */
+   COLOR_HEX_TO_FLOAT(0xFFD27A, 1.00f),                  /* selection_border */
+   COLOR_HEX_TO_FLOAT(0x2E2A33, 1.00f),                  /* entries_border */
    COLOR_HEX_TO_FLOAT(0xFFFFFF, 1.00f),                  /* entries_icon */
-   COLOR_HEX_TO_FLOAT(0x00E5FF, 1.00f),                  /* text_selected */
-   COLOR_HEX_TO_FLOAT(0x2A1557, 1.00f),                  /* message_background */
+   COLOR_HEX_TO_FLOAT(0xFFD27A, 1.00f),                  /* text_selected */
+   COLOR_HEX_TO_FLOAT(0x241A1E, 1.00f),                  /* message_background */
 
    0xFFFFFFFF,                                           /* text_rgba */
    0xFFFFFFFF,                                           /* text_sidebar_rgba */
-   0x00E5FFFF,                                           /* text_selected_rgba */
-   0xB9A7E8FF,                                           /* text_sublabel_rgba */
+   0xFFD27AFF,                                           /* text_selected_rgba */
+   0x9A918CFF,                                           /* text_sublabel_rgba */
 
    /* Screensaver 'tint' (RGB24) */
    0xFFFFFF,                                             /* screensaver_tint */
@@ -8748,7 +8748,7 @@ static enum menu_action ozone_parse_menu_entry_action(
             ozone->categories_selection_ptr = ozone->system_tab_end + ozone->horizontal_list.size;
 
 #ifdef ANDROID
-         /* JL Digital: Back at the top of the menu leaves it - back into
+         /* EchoForge: Back at the top of the menu leaves it - back into
           * the running game, or out of Settings to the game library */
          if (     (ozone->flags & OZONE_FLAG_CURSOR_IN_SIDEBAR)
                || menu_stack_size == 1)
@@ -11056,7 +11056,7 @@ static void ozone_draw_header(
          ozone->dimensions.header_height / 2 + ozone->fonts.title.line_centre_offset,
          video_width,
          video_height,
-         (ozone->theme == &ozone_theme_dark) ? 0xFFD23FFF : ozone->theme->text_rgba,
+         (ozone->theme == &ozone_theme_dark) ? 0xFFD27AFF : ozone->theme->text_rgba,
          TEXT_ALIGN_LEFT,
          1.0f,
          false,

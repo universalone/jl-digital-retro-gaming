@@ -1,4 +1,4 @@
-// JL Digital Retro Gaming: the launcher and RetroArch 1.22.2 built as one app.
+// EchoForge Retro Gaming (formerly JL Digital Retro Gaming): the launcher and RetroArch 1.22.2 built as one app.
 // RetroArch's own Java and native sources are used from ../phoenix and ../phoenix-common.
 plugins {
     id 'com.android.application' version '8.5.2'
@@ -15,9 +15,9 @@ android {
         applicationId 'com.jldigital.retrogaming'
         minSdk 24
         targetSdk 28
-        versionCode 113
-        versionName '2.2.1'
-        resValue 'string', 'app_name', 'JL Digital Retro Gaming'
+        versionCode 114
+        versionName '2.3.0'
+        resValue 'string', 'app_name', 'EchoForge Retro Gaming'
         buildConfigField 'boolean', 'PLAY_STORE_BUILD', 'false'
         externalNativeBuild {
             ndkBuild {

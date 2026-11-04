@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Shows the shared JL Digital Retro Gaming dashboard and plays games in the built-in emulator
+ * Shows the shared EchoForge Retro Gaming dashboard and plays games in the built-in emulator
  * (RetroArch, running as RetroActivityFuture in its own ":game" process).
  * Games, box art and library.json live in the JLRetro folder on the phone's storage,
  * copied there from the PC export. Missing cores are downloaded from the libretro buildbot.
@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
     private SharedPreferences prefs;
     private JSONObject library;
     private long libraryStamp;
+    private Map<String, JSONObject> gamesById = Collections.emptyMap();
     private boolean firstResume = true;
     private String lastStickDir;
 
@@ -229,12 +230,21 @@ public class MainActivity extends Activity {
             if (path.equals("/PressStart2P.ttf")) {
                 return new WebResourceResponse("font/ttf", null, getAssets().open("PressStart2P.ttf"));
             }
-            if (path.startsWith("/art/")) {
-                JSONObject g = findGame(path.substring(5));
-                String art = g == null ? "" : g.optString("art", "");
-                if (!art.isEmpty()) {
-                    File f = inRoot(art);
-                    if (f != null && f.isFile()) return new WebResourceResponse("image/png", null, new FileInputStream(f));
+            if (path.equals("/logo.svg")) {
+                return new WebResourceResponse("image/svg+xml", null, getAssets().open("logo.svg"));
+            }
+            // Game images: box art, the small grid cover (falls back to box art), screenshot and title screen.
+            String[][] images = {{"/art/", "art"}, {"/thumb/", "thumb"}, {"/snap/", "snap"}, {"/title/", "title_shot"}};
+            for (String[] kind : images) {
+                if (!path.startsWith(kind[0])) continue;
+                JSONObject g = findGame(path.substring(kind[0].length()));
+                String rel = g == null ? "" : g.optString(kind[1], "");
+                if (rel.isEmpty() && g != null && kind[1].equals("thumb")) rel = g.optString("art", "");
+                File f = rel.isEmpty() ? null : inRoot(rel);
+                if (f != null && f.isFile()) {
+                    String mime = rel.endsWith(".jpg") ? "image/jpeg" : "image/png";
+                    return new WebResourceResponse(mime, null, 200, "OK",
+                            Collections.singletonMap("Cache-Control", "max-age=604800"), new FileInputStream(f));
                 }
             }
         } catch (IOException ignored) {
@@ -262,6 +272,12 @@ public class MainActivity extends Activity {
             try (InputStream in = new FileInputStream(f)) {
                 library = new JSONObject(new String(readAll(in), StandardCharsets.UTF_8));
                 libraryStamp = f.lastModified();
+                gamesById = new java.util.HashMap<>();
+                JSONArray games = library.optJSONArray("games");
+                for (int i = 0; games != null && i < games.length(); i++) {
+                    JSONObject g = games.optJSONObject(i);
+                    if (g != null) gamesById.put(g.optString("id"), g);
+                }
             } catch (IOException | JSONException e) {
                 return null;
             }
@@ -277,15 +293,9 @@ public class MainActivity extends Activity {
         return out.toByteArray();
     }
 
-    private JSONObject findGame(String id) {
-        JSONObject lib = library();
-        if (lib == null) return null;
-        JSONArray games = lib.optJSONArray("games");
-        for (int i = 0; games != null && i < games.length(); i++) {
-            JSONObject g = games.optJSONObject(i);
-            if (g != null && id.equals(g.optString("id"))) return g;
-        }
-        return null;
+    /** Looked up in a map: the grid asks for every game's cover, so a list scan per image adds up on TV boxes. */
+    private synchronized JSONObject findGame(String id) {
+        return library() == null ? null : gamesById.get(id);
     }
 
     private void openUrl(String url) {
@@ -352,7 +362,9 @@ public class MainActivity extends Activity {
                         .put("title", g.optString("title"))
                         .put("region", g.optString("region"))
                         .put("system", g.optString("system"))
-                        .put("art", !g.optString("art").isEmpty()));
+                        .put("art", !g.optString("art").isEmpty())
+                        .put("snap", !g.optString("snap").isEmpty())
+                        .put("titleShot", !g.optString("title_shot").isEmpty()));
             }
         }
         return new JSONObject()
@@ -360,7 +372,8 @@ public class MainActivity extends Activity {
                 .put("games", out)
                 .put("favorites", new JSONArray(prefs.getString("favorites", "[]")))
                 .put("history", new JSONObject(prefs.getString("history", "{}")))
-                .put("settings", new JSONObject());
+                .put("settings", new JSONObject())
+                .put("version", libraryStamp);
     }
 
     // Older boxes (e.g. Mi Box 3, Mali-450) only have OpenGL ES 2.0, where GLES3 cores crash on load.
@@ -530,7 +543,7 @@ public class MainActivity extends Activity {
                     }
                 }
             }
-            if (!sawLibrary) error = "That link isn't a JL game pack (no library.json inside).";
+            if (!sawLibrary) error = "That link isn't an EchoForge game pack (no library.json inside).";
         } catch (IOException e) {
             error = "The download stopped (" + e.getMessage() + "). Check the link and your internet, then try again.";
         } finally {
@@ -650,7 +663,7 @@ public class MainActivity extends Activity {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                     }
                 });
-                return new JSONObject().put("toast", "Turn on access for JL Digital Retro Gaming, then come back.");
+                return new JSONObject().put("toast", "Turn on access for EchoForge Retro Gaming, then come back.");
             case "openRetroArch":
                 startGame(null, null);
                 return new JSONObject();

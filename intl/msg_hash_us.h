@@ -159,7 +159,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_ONLINE_UPDATER,
-   "Download add-ons, components, and content for JL Retro."
+   "Download add-ons, components, and content for EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_NETPLAY,
@@ -207,7 +207,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_RESTART_RETROARCH,
-   "Restart JL Retro application."
+   "Restart EchoForge application."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QUIT_RETROARCH,
@@ -215,7 +215,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_QUIT_RETROARCH,
-   "Quit JL Retro application. Configuration save on exit is enabled."
+   "Quit EchoForge application. Configuration save on exit is enabled."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CLOUD_SYNC_SYNC_NOW,
@@ -227,11 +227,11 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_QUIT_RETROARCH_NOSAVE,
-   "Quit JL Retro application. Configuration save on exit is disabled."
+   "Quit EchoForge application. Configuration save on exit is disabled."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_QUIT_RETROARCH,
-   "Quit JL Retro. Killing the program in any hard way (SIGKILL, etc.) will terminate JL Retro without saving the configuration in any case. On Unix-likes, SIGINT/SIGTERM allows a clean deinitialization which includes configuration save if enabled."
+   "Quit EchoForge. Killing the program in any hard way (SIGKILL, etc.) will terminate EchoForge without saving the configuration in any case. On Unix-likes, SIGINT/SIGTERM allows a clean deinitialization which includes configuration save if enabled."
    )
 
 /* Main Menu > Load Core */
@@ -636,7 +636,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SYSTEM_INFO_RETROARCH_VERSION,
-   "JL Retro Version"
+   "EchoForge Version"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SYSTEM_INFO_GIT_VERSION,
@@ -1358,7 +1358,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_CLOUD_SYNC_SYNC_MODE,
-   "Automatic: Sync on JL Retro startup and when cores are unloaded. Manual: Only sync when 'Sync Now' button is manually triggered."
+   "Automatic: Sync on EchoForge startup and when cores are unloaded. Manual: Only sync when 'Sync Now' button is manually triggered."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CLOUD_SYNC_SYNC_MODE_AUTOMATIC,
@@ -1490,7 +1490,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_FILE_BROWSER_CORE,
-   "Libretro core. Select this file to have JL Retro load this core."
+   "Libretro core. Select this file to have EchoForge load this core."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_FILE_BROWSER_DIRECTORY,
@@ -1945,19 +1945,19 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_MENU_DRIVER_XMB,
-   "XMB is a JL Retro GUI that looks like a 7th generation console menu. It can support the same features as Ozone."
+   "XMB is a EchoForge GUI that looks like a 7th generation console menu. It can support the same features as Ozone."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_MENU_DRIVER_OZONE,
-   "Ozone is the default GUI of JL Retro on most platforms. It is optimized for navigation with a game controller."
+   "Ozone is the default GUI of EchoForge on most platforms. It is optimized for navigation with a game controller."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_MENU_DRIVER_RGUI,
-   "RGUI is a simple built-in GUI for JL Retro. It has the lowest performance requirements among the menu drivers, and can be used on low resolution screens."
+   "RGUI is a simple built-in GUI for EchoForge. It has the lowest performance requirements among the menu drivers, and can be used on low resolution screens."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_MENU_DRIVER_MATERIALUI,
-   "On mobile devices, JL Retro uses the mobile UI, MaterialUI, by default. This interface is designed around touchscreen and pointer devices, like a mouse/trackball."
+   "On mobile devices, EchoForge uses the mobile UI, MaterialUI, by default. This interface is designed around touchscreen and pointer devices, like a mouse/trackball."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_RECORD_DRIVER,
@@ -2274,7 +2274,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_VIDEO_MONITOR_INDEX,
-   "Which monitor to prefer. 0 (default) means no particular monitor is preferred, 1 and up (1 being first monitor), suggests JL Retro to use that particular monitor."
+   "Which monitor to prefer. 0 (default) means no particular monitor is preferred, 1 and up (1 being first monitor), suggests EchoForge to use that particular monitor."
    )
 #if defined (WIIU)
 MSG_HASH(
@@ -2492,7 +2492,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_VIDEO_WINDOW_SAVE_POSITION,
-   "Show all content in a fixed size window of dimensions specified by 'Window Width' and 'Window Height', and save current window size and position upon closing JL Retro. When disabled, window size will be set dynamically based on 'Windowed Scale'."
+   "Show all content in a fixed size window of dimensions specified by 'Window Width' and 'Window Height', and save current window size and position upon closing EchoForge. When disabled, window size will be set dynamically based on 'Windowed Scale'."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_WINDOW_CUSTOM_SIZE_ENABLE,
@@ -3116,7 +3116,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MICROPHONE_WASAPI_EXCLUSIVE_MODE,
-   "Allow JL Retro to take exclusive control of the microphone device when using the WASAPI microphone driver. If disabled, JL Retro will use shared mode instead."
+   "Allow EchoForge to take exclusive control of the microphone device when using the WASAPI microphone driver. If disabled, EchoForge will use shared mode instead."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MICROPHONE_WASAPI_FLOAT_FORMAT,
@@ -3339,7 +3339,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_MAX_USERS,
-   "Maximum amount of users supported by JL Retro."
+   "Maximum amount of users supported by EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_POLL_TYPE_BEHAVIOR,
@@ -3347,11 +3347,11 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_POLL_TYPE_BEHAVIOR,
-   "Influences how input polling is done in JL Retro. Setting it to 'Early' or 'Late' can result in less latency, depending on your configuration."
+   "Influences how input polling is done in EchoForge. Setting it to 'Early' or 'Late' can result in less latency, depending on your configuration."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_INPUT_POLL_TYPE_BEHAVIOR,
-   "Influences how input polling is done inside JL Retro.\nEarly - Input polling is performed before the frame is processed.\nNormal - Input polling is performed when polling is requested.\nLate - Input polling is performed on first input state request per frame.\nSetting it to 'Early' or 'Late' can result in less latency, depending on your configuration. Will be ignored when using netplay."
+   "Influences how input polling is done inside EchoForge.\nEarly - Input polling is performed before the frame is processed.\nNormal - Input polling is performed when polling is requested.\nLate - Input polling is performed on first input state request per frame.\nSetting it to 'Early' or 'Late' can result in less latency, depending on your configuration. Will be ignored when using netplay."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_REMAP_BINDS_ENABLE,
@@ -3398,7 +3398,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_INPUT_SELECT_PHYSICAL_KEYBOARD,
-   "If JL Retro identifies a hardware keyboard as some kind of gamepad, this setting can be used to force JL Retro to treat the misidentified device as a keyboard.\nThis can be useful if you are trying to emulate a computer in some Android TV device and also own a physical keyboard that can be attached to the box."
+   "If EchoForge identifies a hardware keyboard as some kind of gamepad, this setting can be used to force EchoForge to treat the misidentified device as a keyboard.\nThis can be useful if you are trying to emulate a computer in some Android TV device and also own a physical keyboard that can be attached to the box."
    )
 #endif
 MSG_HASH(
@@ -3652,7 +3652,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_INPUT_RETROPAD_BINDS,
-   "Libretro uses a virtual gamepad abstraction known as the 'RetroPad' to communicate from frontends (like JL Retro) to cores and vice versa. This menu determines how the virtual RetroPad is mapped to the physical input devices and which virtual input ports these devices occupy.\nIf a physical input device is recognized and autoconfigured correctly, users probably do not need to use this menu at all, and for core-specific input changes, should use the Quick Menu's 'Controls' submenu instead."
+   "Libretro uses a virtual gamepad abstraction known as the 'RetroPad' to communicate from frontends (like EchoForge) to cores and vice versa. This menu determines how the virtual RetroPad is mapped to the physical input devices and which virtual input ports these devices occupy.\nIf a physical input device is recognized and autoconfigured correctly, users probably do not need to use this menu at all, and for core-specific input changes, should use the Quick Menu's 'Controls' submenu instead."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_USER_BINDS,
@@ -3861,7 +3861,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_QUIT_GAMEPAD_COMBO,
-   "Controller button combination to quit JL Retro."
+   "Controller button combination to quit EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_QUIT_KEY,
@@ -3869,7 +3869,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_QUIT_KEY,
-   "Closes JL Retro, ensuring all save data and configuration files are flushed to disk."
+   "Closes EchoForge, ensuring all save data and configuration files are flushed to disk."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_CLOSE_CONTENT_KEY,
@@ -4187,7 +4187,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_GRAB_MOUSE_TOGGLE,
-   "Grabs or releases the mouse. When grabbed, the system cursor is hidden and confined to the JL Retro display window, improving relative mouse input."
+   "Grabs or releases the mouse. When grabbed, the system cursor is hidden and confined to the EchoForge display window, improving relative mouse input."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_GAME_FOCUS_TOGGLE,
@@ -4349,7 +4349,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_DEVICE_INDEX,
-   "The physical controller as recognized by JL Retro."
+   "The physical controller as recognized by EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_DEVICE_RESERVED_DEVICE_NAME,
@@ -4417,7 +4417,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_MOUSE_INDEX,
-   "The physical mouse as recognized by JL Retro."
+   "The physical mouse as recognized by EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_JOYPAD_B,
@@ -4649,11 +4649,11 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_DUMMY_ON_CORE_SHUTDOWN,
-   "Some cores have a shutdown feature, loading a dummy core will prevent JL Retro from shutting down."
+   "Some cores have a shutdown feature, loading a dummy core will prevent EchoForge from shutting down."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_DUMMY_ON_CORE_SHUTDOWN,
-   "Some cores might have a shutdown feature. If this option is left disabled, selecting the shutdown procedure would trigger JL Retro being shut down.\nEnabling this option will load a dummy core instead so that we remain inside the menu and JL Retro won't shutdown."
+   "Some cores might have a shutdown feature. If this option is left disabled, selecting the shutdown procedure would trigger EchoForge being shut down.\nEnabling this option will load a dummy core instead so that we remain inside the menu and EchoForge won't shutdown."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CORE_SET_SUPPORTS_NO_CONTENT_ENABLE,
@@ -4669,7 +4669,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_CHECK_FOR_MISSING_FIRMWARE,
-   "Some cores might need firmware or bios files. If this option is enabled, JL Retro will not allow to start the core if any mandatory firmware items are missing."
+   "Some cores might need firmware or bios files. If this option is enabled, EchoForge will not allow to start the core if any mandatory firmware items are missing."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CORE_OPTION_CATEGORY_ENABLE,
@@ -4702,7 +4702,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_ALWAYS_RELOAD_CORE_ON_RUN_CONTENT,
-   "Restart JL Retro when launching content, even when the requested core is already loaded. This may improve system stability, at the expense of increased loading times."
+   "Restart EchoForge when launching content, even when the requested core is already loaded. This may improve system stability, at the expense of increased loading times."
    )
 #endif
 MSG_HASH(
@@ -4758,7 +4758,7 @@ MSG_HASH(
 
 MSG_HASH(
    MSG_CORE_STEAM_UNINSTALLED,
-   "The core will uninstall when quitting JL Retro."
+   "The core will uninstall when quitting EchoForge."
 )
 
 MSG_HASH(
@@ -4786,7 +4786,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_REMAP_SAVE_ON_EXIT,
-   "Save changes to any active input remap file when closing content or quitting JL Retro."
+   "Save changes to any active input remap file when closing content or quitting EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_GAME_SPECIFIC_OPTIONS,
@@ -4830,7 +4830,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_GLOBAL_CORE_OPTIONS,
-   "Save all core options to a common settings file (retroarch-core-options.cfg). When disabled, options for each core will be saved to a separate core-specific folder/file in JL Retro's 'Configs' directory."
+   "Save all core options to a common settings file (retroarch-core-options.cfg). When disabled, options for each core will be saved to a separate core-specific folder/file in EchoForge's 'Configs' directory."
    )
 
 /* Settings > Saving */
@@ -5100,7 +5100,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_LOG_TO_FILE_TIMESTAMP,
-   "When logging to file, redirect the output from each JL Retro session to a new timestamped file. If disabled, log is overwritten each time JL Retro is restarted."
+   "When logging to file, redirect the output from each EchoForge session to a new timestamped file. If disabled, log is overwritten each time EchoForge is restarted."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PERFCNT_ENABLE,
@@ -5108,7 +5108,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PERFCNT_ENABLE,
-   "Performance counters for JL Retro and cores. Counter data can help determine system bottlenecks and fine-tune performance."
+   "Performance counters for EchoForge and cores. Counter data can help determine system bottlenecks and fine-tune performance."
    )
 
 /* Settings > File Browser */
@@ -5143,7 +5143,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_USE_LAST_START_DIRECTORY,
-   "Open File Browser at the last used location when loading content from the Start Directory. Note: Location will be reset to default upon restarting JL Retro."
+   "Open File Browser at the last used location when loading content from the Start Directory. Note: Location will be reset to default upon restarting EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CORE_SUGGEST_ALWAYS,
@@ -5190,7 +5190,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_FASTFORWARD_RATIO,
-   "The maximum rate at which content will be run when using fast forward. (E.g. 5.0 for 60 fps content => 300 fps cap).\nJL Retro will go to sleep to ensure that the maximum rate will not be exceeded. Do not rely on this cap to be perfectly accurate."
+   "The maximum rate at which content will be run when using fast forward. (E.g. 5.0 for 60 fps content => 300 fps cap).\nEchoForge will go to sleep to ensure that the maximum rate will not be exceeded. Do not rely on this cap to be perfectly accurate."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_FASTFORWARD_FRAMESKIP,
@@ -6250,7 +6250,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_VIEWS_SETTINGS,
-   "Toggle the visibility of menu items in JL Retro."
+   "Toggle the visibility of menu items in EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_PAUSE_LIBRETRO,
@@ -6266,7 +6266,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PAUSE_NONACTIVE,
-   "Pause content when JL Retro is not the active window."
+   "Pause content when EchoForge is not the active window."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QUIT_ON_CLOSE_CONTENT,
@@ -6274,7 +6274,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_QUIT_ON_CLOSE_CONTENT,
-   "Automatically quit JL Retro when closing content. 'CLI' quits only when content is launched via command line."
+   "Automatically quit EchoForge when closing content. 'CLI' quits only when content is launched via command line."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SAVESTATE_RESUME,
@@ -6545,19 +6545,19 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SHOW_QUIT_RETROARCH,
-   "Show 'Quit JL Retro'"
+   "Show 'Quit EchoForge'"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SHOW_QUIT_RETROARCH,
-   "Show the 'Quit JL Retro' option in the Main Menu."
+   "Show the 'Quit EchoForge' option in the Main Menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MENU_SHOW_RESTART_RETROARCH,
-   "Show 'Restart JL Retro'"
+   "Show 'Restart EchoForge'"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_MENU_SHOW_RESTART_RETROARCH,
-   "Show the 'Restart JL Retro' option in the Main Menu."
+   "Show the 'Restart EchoForge' option in the Main Menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_CONTENT_SHOW_SETTINGS,
@@ -8157,7 +8157,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_PLAYLIST_ALLOW_NON_PNG,
-   "When enabled, local thumbnails can be added in all image types supported by JL Retro (such as jpeg). May have a minor performance impact."
+   "When enabled, local thumbnails can be added in all image types supported by EchoForge (such as jpeg). May have a minor performance impact."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MANAGE,
@@ -8301,7 +8301,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_ACCOUNTS_RETRO_ACHIEVEMENTS,
-   "Login details for your RetroAchievements account. Visit retroachievements.org and sign up for a free account.\nAfter you are done registering, you need to input the username and password into JL Retro."
+   "Login details for your RetroAchievements account. Visit retroachievements.org and sign up for a free account.\nAfter you are done registering, you need to input the username and password into EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_ACCOUNTS_YOUTUBE,
@@ -8380,7 +8380,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_ASSETS_DIRECTORY,
-   "Menu assets used by JL Retro are stored in this directory."
+   "Menu assets used by EchoForge are stored in this directory."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_DYNAMIC_WALLPAPERS_DIRECTORY,
@@ -8636,7 +8636,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_STEAM_RICH_PRESENCE_ENABLE,
-   "Share your current status within JL Retro on Steam."
+   "Share your current status within EchoForge on Steam."
    )
 
 MSG_HASH(
@@ -10159,7 +10159,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_SHADER_APPLY_CHANGES,
-   "After changing shader settings such as amount of shader passes, filtering, FBO scale, use this to apply changes.\nChanging these shader settings is a somewhat expensive operation so it has to be done explicitly.\nWhen you apply shaders, the shader settings are saved to a temporary file (retroarch.slangp/.cgp/.glslp) and loaded. The file persists after JL Retro exits and is saved to the Shader Directory."
+   "After changing shader settings such as amount of shader passes, filtering, FBO scale, use this to apply changes.\nChanging these shader settings is a somewhat expensive operation so it has to be done explicitly.\nWhen you apply shaders, the shader settings are saved to a temporary file (retroarch.slangp/.cgp/.glslp) and loaded. The file persists after EchoForge exits and is saved to the Shader Directory."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_VIDEO_SHADER_PARAMETERS,
@@ -10179,7 +10179,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_VIDEO_SHADER_NUM_PASSES,
-   "JL Retro allows to mix and match various shaders with arbitrary shader passes, with custom hardware filters and scale factors.\nThis option specifies the number of shader passes to use. If you set this to 0, and use Apply Shader Changes, you use a 'blank' shader."
+   "EchoForge allows to mix and match various shaders with arbitrary shader passes, with custom hardware filters and scale factors.\nThis option specifies the number of shader passes to use. If you set this to 0, and use Apply Shader Changes, you use a 'blank' shader."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_SHADER,
@@ -11266,7 +11266,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_CHEAT_HANDLER_TYPE_RETRO,
-   "JL Retro"
+   "EchoForge"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_CHEAT_MEMORY_SIZE_1,
@@ -12219,7 +12219,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_XMB_THEME,
-   "Select a different icon theme for JL Retro."
+   "Select a different icon theme for EchoForge."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_XMB_SWITCH_ICONS,
@@ -12630,7 +12630,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_OZONE_COLOR_THEME_BASIC_BLACK,
-   "JL Digital Arcade"
+   "EchoForge Arcade"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_OZONE_COLOR_THEME_NORD,
@@ -13048,7 +13048,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_MENU_HELP_ABOUT,
-   "About JL Retro"
+   "About EchoForge"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_MENU_HELP_DOCUMENTATION,
@@ -13384,11 +13384,11 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_UPDATE_RETROARCH_NIGHTLY,
-   "Update JL Retro (nightly)"
+   "Update EchoForge (nightly)"
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_UPDATE_RETROARCH_FINISHED,
-   "JL Retro updated successfully. Please restart the application for the changes to take effect."
+   "EchoForge updated successfully. Please restart the application for the changes to take effect."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_UPDATE_RETROARCH_FAILED,
@@ -13571,7 +13571,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_HELP_LOAD_CONTENT_HISTORY,
-   "When content is loaded, content and libretro core combinations are saved to history.\nThe history is saved to a file in the same directory as the JL Retro config file. If no config file was loaded in startup, history will not be saved or loaded, and will not exist in the main menu."
+   "When content is loaded, content and libretro core combinations are saved to history.\nThe history is saved to a file in the same directory as the EchoForge config file. If no config file was loaded in startup, history will not be saved or loaded, and will not exist in the main menu."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_MULTIMEDIA_SETTINGS,
@@ -14069,7 +14069,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_CONTENT_DIR,
-   "Usually set by developers who bundle libretro/JL Retro apps to point to assets."
+   "Usually set by developers who bundle libretro/EchoForge apps to point to assets."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_ASK_ARCHIVE,
@@ -14147,7 +14147,7 @@ MSG_HASH( /* FIXME Should be MSG_ */
    )
 MSG_HASH( /* FIXME Should be MSG_ */
    MENU_ENUM_LABEL_VALUE_VIDEO_DRIVER_FALLBACK,
-   "Your graphics driver is not compatible with the current video driver in JL Retro, falling back to the %s driver. Please restart JL Retro for the changes to take effect."
+   "Your graphics driver is not compatible with the current video driver in EchoForge, falling back to the %s driver. Please restart EchoForge for the changes to take effect."
    )
 MSG_HASH( /* FIXME Should be MSG_ */
    MENU_ENUM_LABEL_VALUE_SIDELOAD_CORE_SUCCESS,
@@ -14255,15 +14255,15 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_NETPLAY_NOT_RETROARCH,
-   "A netplay connection attempt failed because the peer is not running JL Retro, or is running an old version of JL Retro."
+   "A netplay connection attempt failed because the peer is not running EchoForge, or is running an old version of EchoForge."
    )
 MSG_HASH(
    MSG_NETPLAY_OUT_OF_DATE,
-   "A netplay peer is running an old version of JL Retro. Cannot connect."
+   "A netplay peer is running an old version of EchoForge. Cannot connect."
    )
 MSG_HASH(
    MSG_NETPLAY_DIFFERENT_VERSIONS,
-   "WARNING: A netplay peer is running a different version of JL Retro. If problems occur, use the same version."
+   "WARNING: A netplay peer is running a different version of EchoForge. If problems occur, use the same version."
    )
 MSG_HASH(
    MSG_NETPLAY_DIFFERENT_CORES,
@@ -15208,7 +15208,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_PROGRAM,
-   "JL Retro"
+   "EchoForge"
    )
 MSG_HASH(
    MSG_READING_FIRST_DATA_TRACK,
@@ -15584,7 +15584,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_BLUETOOTH_PAIRING_REMOVED,
-   "Pairing removed. Restart JL Retro to connect/pair again."
+   "Pairing removed. Restart EchoForge to connect/pair again."
    )
 MSG_HASH(
    MSG_WIFI_SCAN_COMPLETE,
@@ -15892,7 +15892,7 @@ MSG_HASH(
 )
 MSG_HASH(
    MSG_CHEEVOS_UNSUPPORTED_WARNING,
-   "Unsupported achievements detected. Please try a different core or update JL Retro."
+   "Unsupported achievements detected. Please try a different core or update EchoForge."
 )
 MSG_HASH(
    MSG_CHEEVOS_RICH_PRESENCE_SPECTATING,
@@ -16450,11 +16450,11 @@ MSG_HASH(
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_INPUT_META_RESTART_KEY,
-   "Restart JL Retro"
+   "Restart EchoForge"
    )
 MSG_HASH(
    MENU_ENUM_SUBLABEL_INPUT_META_RESTART_KEY,
-   "Exit then restart JL Retro. Required for the activation of certain menu settings (for example, when changing menu driver)."
+   "Exit then restart EchoForge. Required for the activation of certain menu settings (for example, when changing menu driver)."
    )
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_AUDIO_BLOCK_FRAMES,
@@ -16888,7 +16888,7 @@ MSG_HASH(
 #ifdef HAVE_QT
 MSG_HASH(
    MENU_ENUM_LABEL_VALUE_QT_SCAN_FINISHED,
-   "Scan Finished.<br><br>\nIn order for content to be correctly scanned, you must:\n<ul><li>have a compatible core already downloaded</li>\n<li>have \"Core Info Files\" updated via Online Updater</li>\n<li>have \"Databases\" updated via Online Updater</li>\n<li>restart JL Retro if any of the above was just done</li></ul>\nFinally, the content must match existing databases from <a href=\"https://docs.libretro.com/guides/roms-playlists-thumbnails/#sources\">here</a>. If it is still not working, consider <a href=\"https://www.github.com/libretro/JL Retro/issues\">submitting a bug report</a>."
+   "Scan Finished.<br><br>\nIn order for content to be correctly scanned, you must:\n<ul><li>have a compatible core already downloaded</li>\n<li>have \"Core Info Files\" updated via Online Updater</li>\n<li>have \"Databases\" updated via Online Updater</li>\n<li>restart EchoForge if any of the above was just done</li></ul>\nFinally, the content must match existing databases from <a href=\"https://docs.libretro.com/guides/roms-playlists-thumbnails/#sources\">here</a>. If it is still not working, consider <a href=\"https://www.github.com/libretro/EchoForge/issues\">submitting a bug report</a>."
    )
 #endif
 MSG_HASH(
@@ -16905,7 +16905,7 @@ MSG_HASH(
    )
 MSG_HASH(
    MSG_ACCESSIBILITY_STARTUP,
-   "JL Retro accessibility on.  Main Menu Load Core."
+   "EchoForge accessibility on.  Main Menu Load Core."
    )
 MSG_HASH(
    MSG_AI_SERVICE_STOPPED,

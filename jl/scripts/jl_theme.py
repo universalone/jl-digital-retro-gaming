@@ -1,4 +1,4 @@
-"""One-off: JL Digital branding for the RetroArch sources (Ozone colors, header color, names)."""
+"""One-off: EchoForge Retro Gaming branding for the RetroArch sources (Ozone colors, header color, names)."""
 import re
 import sys
 
@@ -21,11 +21,11 @@ def quad(rgb, a_top=1.0, a_bottom=1.0):
     return row(a_top) + row(a_top) + row(a_bottom) + row(a_bottom)
 
 
-BG, SIDEBAR, PINK, CYAN, YELLOW = 0x140B2E, 0x0D0720, 0xFF2E97, 0x00E5FF, 0xFFD23F
+BG, SIDEBAR, PINK, CYAN, YELLOW = 0x0B0C10, 0x07080B, 0xFF6A1F, 0xFFD27A, 0xFFD27A
 
 ozone = 'menu/drivers/ozone.c'
 s = open(ROOT + '/' + ozone, encoding='utf-8').read()
-# The "Basic Black" (default) theme becomes the JL Digital Arcade theme.
+# The "Basic Black" (default) theme becomes the EchoForge Arcade theme.
 for name, body in [
     ('ozone_sidebar_gradient_top_dark', quad(SIDEBAR)),
     ('ozone_sidebar_gradient_bottom_dark', quad(SIDEBAR)),
@@ -58,24 +58,24 @@ patch(ozone, [
    0xFFFFFFFF,                                           /* text_sidebar_rgba */
    0x00FFC5FF,                                           /* text_selected_rgba */
    0x9F9FA1FF,                                           /* text_sublabel_rgba */''',
-     '''/* JL Digital Arcade: neon pink/cyan on deep indigo (replaces "Basic Black") */
+     '''/* EchoForge Arcade: ember, hot pink and gold on forge black (replaces "Basic Black") */
 static ozone_theme_t ozone_theme_dark = {
-   COLOR_HEX_TO_FLOAT(0x140B2E, 1.00f),                  /* background */
+   COLOR_HEX_TO_FLOAT(0x0B0C10, 1.00f),                  /* background */
    ozone_background_libretro_running_dark,               /* background_libretro_running */
 
-   COLOR_HEX_TO_FLOAT(0xFF2E97, 1.00f),                  /* header_footer_separator */
+   COLOR_HEX_TO_FLOAT(0xFF6A1F, 1.00f),                  /* header_footer_separator */
    COLOR_HEX_TO_FLOAT(0xFFFFFF, 1.00f),                  /* text */
-   COLOR_HEX_TO_FLOAT(0x2A1557, 1.00f),                  /* selection */
-   COLOR_HEX_TO_FLOAT(0x00E5FF, 1.00f),                  /* selection_border */
-   COLOR_HEX_TO_FLOAT(0x3B2770, 1.00f),                  /* entries_border */
+   COLOR_HEX_TO_FLOAT(0x241A1E, 1.00f),                  /* selection */
+   COLOR_HEX_TO_FLOAT(0xFFD27A, 1.00f),                  /* selection_border */
+   COLOR_HEX_TO_FLOAT(0x2E2A33, 1.00f),                  /* entries_border */
    COLOR_HEX_TO_FLOAT(0xFFFFFF, 1.00f),                  /* entries_icon */
-   COLOR_HEX_TO_FLOAT(0x00E5FF, 1.00f),                  /* text_selected */
-   COLOR_HEX_TO_FLOAT(0x2A1557, 1.00f),                  /* message_background */
+   COLOR_HEX_TO_FLOAT(0xFFD27A, 1.00f),                  /* text_selected */
+   COLOR_HEX_TO_FLOAT(0x241A1E, 1.00f),                  /* message_background */
 
    0xFFFFFFFF,                                           /* text_rgba */
    0xFFFFFFFF,                                           /* text_sidebar_rgba */
-   0x00E5FFFF,                                           /* text_selected_rgba */
-   0xB9A7E8FF,                                           /* text_sublabel_rgba */'''),
+   0xFFD27AFF,                                           /* text_selected_rgba */
+   0x9A918CFF,                                           /* text_sublabel_rgba */'''),
     # Header titles in arcade yellow on the JL theme.
     ('''         ticker_x_offset + header_margin + logo_icon_size + ozone->dimensions.entry_icon_padding,
          ozone->dimensions.header_height / 2 + ozone->fonts.title.line_centre_offset,
@@ -86,7 +86,7 @@ static ozone_theme_t ozone_theme_dark = {
          ozone->dimensions.header_height / 2 + ozone->fonts.title.line_centre_offset,
          video_width,
          video_height,
-         (ozone->theme == &ozone_theme_dark) ? 0xFFD23FFF : ozone->theme->text_rgba,'''),
+         (ozone->theme == &ozone_theme_dark) ? 0xFFD27AFF : ozone->theme->text_rgba,'''),
 ])
 
 # Ozone (with the JL theme) is the menu everywhere, phones included.
@@ -95,10 +95,10 @@ patch('configuration.c', [
      '#elif defined(HAVE_MATERIALUI) && defined(RARCH_MOBILE) && !defined(ANDROID)\nstatic const enum menu_driver_enum MENU_DEFAULT_DRIVER = MENU_MATERIALUI;'),
 ])
 
-# English menu text: the emulator is "JL Retro".
+# English menu text: the emulator is "EchoForge".
 p = ROOT + '/intl/msg_hash_us.h'
 s = open(p, encoding='utf-8').read()
-s = s.replace('"Basic Black"', '"JL Digital Arcade"', 1)
-s = re.sub(r'"(?:[^"\\]|\\.)*"', lambda m: m.group(0).replace('RetroArch', 'JL Retro'), s)
+s = s.replace('"Basic Black"', '"EchoForge Arcade"', 1)
+s = re.sub(r'"(?:[^"\\]|\\.)*"', lambda m: m.group(0).replace('RetroArch', 'EchoForge'), s)
 open(p, 'w', encoding='utf-8', newline='\n').write(s)
 print('ok')
