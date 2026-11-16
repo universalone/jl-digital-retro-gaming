@@ -233,6 +233,10 @@ public class MainActivity extends Activity {
             if (path.equals("/logo.svg")) {
                 return new WebResourceResponse("image/svg+xml", null, getAssets().open("logo.svg"));
             }
+            // Skins and Home dashboards (shared with the PC version).
+            if (path.equals("/skins.js") || path.equals("/custom.js")) {
+                return new WebResourceResponse("text/javascript", "utf-8", getAssets().open(path.substring(1)));
+            }
             // Game images: box art, the small grid cover (falls back to box art), screenshot and title screen.
             String[][] images = {{"/art/", "art"}, {"/thumb/", "thumb"}, {"/snap/", "snap"}, {"/title/", "title_shot"}};
             for (String[] kind : images) {
@@ -318,7 +322,8 @@ public class MainActivity extends Activity {
                     case "/api/launch": return launch(body.optString("id")).toString();
                     case "/api/favorite": return favorite(body.optString("id"), body.optBoolean("on")).toString();
                     case "/api/action": return action(body.optString("name"), body.optString("value")).toString();
-                    default: return new JSONObject().put("ok", true).put("settings", new JSONObject()).toString();
+                    case "/api/settings": return saveSettings(body).toString();
+                    default: return new JSONObject().put("ok", true).put("settings", settings()).toString();
                 }
             } catch (JSONException e) {
                 return "{\"ok\":false,\"error\":\"Something went wrong.\"}";
@@ -372,8 +377,36 @@ public class MainActivity extends Activity {
                 .put("games", out)
                 .put("favorites", new JSONArray(prefs.getString("favorites", "[]")))
                 .put("history", new JSONObject(prefs.getString("history", "{}")))
-                .put("settings", new JSONObject())
+                .put("settings", settings())
                 .put("version", libraryStamp);
+    }
+
+    // ---- The page's own settings: skin, your skins, Home dashboard, your dashboards, pinned games, scanlines ----
+
+    private static final Set<String> PAGE_SETTINGS = new LinkedHashSet<>(java.util.Arrays.asList(
+            "skin", "skins", "homeLayout", "layouts", "pinned", "scanlines"));
+
+    private JSONObject settings() {
+        try {
+            return new JSONObject(prefs.getString("pageSettings", "{}"));
+        } catch (JSONException e) {
+            return new JSONObject();
+        }
+    }
+
+    /** Keeps only the known settings, each a short plain value; the page checks skins again before using them. */
+    private JSONObject saveSettings(JSONObject body) throws JSONException {
+        JSONObject s = settings();
+        java.util.Iterator<String> keys = body.keys();
+        while (keys.hasNext()) {
+            String k = keys.next();
+            if (!PAGE_SETTINGS.contains(k)) continue;
+            Object v = body.get(k);
+            if (v.toString().length() > 60000) continue;
+            s.put(k, v);
+        }
+        prefs.edit().putString("pageSettings", s.toString()).apply();
+        return new JSONObject().put("ok", true).put("settings", s);
     }
 
     // Older boxes (e.g. Mi Box 3, Mali-450) only have OpenGL ES 2.0, where GLES3 cores crash on load.
