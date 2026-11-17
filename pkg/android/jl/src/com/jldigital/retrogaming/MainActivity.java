@@ -45,8 +45,8 @@ import java.util.Set;
 /**
  * Shows the shared EchoForge Retro Gaming dashboard and plays games in the built-in emulator
  * (RetroArch, running as RetroActivityFuture in its own ":game" process).
- * Games, box art and library.json live in the JLRetro folder on the phone's storage,
- * copied there from the PC export. Missing cores are downloaded from the libretro buildbot.
+ * Games, box art and library.json live in the JLRetro folder on the phone's storage: added on the device (GameInbox),
+ * copied there from the PC export or downloaded as a game pack. Missing cores are downloaded from the libretro buildbot.
  */
 public class MainActivity extends Activity {
     private static final String APP_HOST = "appassets.androidplatform.net";
@@ -72,12 +72,18 @@ public class MainActivity extends Activity {
     private long libraryStamp;
     private Map<String, JSONObject> gamesById = Collections.emptyMap();
     private boolean firstResume = true;
+    private GameInbox inbox;
     private String lastStickDir;
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
         prefs = getSharedPreferences("jlretro", MODE_PRIVATE);
+        inbox = new GameInbox(root(), getCacheDir(), () -> {
+            synchronized (MainActivity.this) { library = null; } // read library.json again
+            js("window.jlLibraryChanged && jlLibraryChanged()");
+            installLibraryCores();
+        });
         // Writes the emulator's config and asks it to unpack the menu assets bundled in the APK.
         UserPreferences.updateConfigFile(this);
         web = new WebView(this);
@@ -323,6 +329,12 @@ public class MainActivity extends Activity {
                     case "/api/favorite": return favorite(body.optString("id"), body.optBoolean("on")).toString();
                     case "/api/action": return action(body.optString("name"), body.optString("value")).toString();
                     case "/api/settings": return saveSettings(body).toString();
+                    case "/api/inbox":
+                        if (!hasStorageAccess()) return new JSONObject().put("folder", GameInbox.describe()).put("items", new JSONArray()).toString();
+                        return inbox.list(library()).toString();
+                    case "/api/inbox/add":
+                        if (!hasStorageAccess()) return new JSONObject().put("added", new JSONArray()).put("errors", new JSONArray().put(new JSONObject().put("error", "Allow access to your games first."))).toString();
+                        return inbox.add(body.optBoolean("all") ? null : body.optString("file")).toString();
                     default: return new JSONObject().put("ok", true).put("settings", settings()).toString();
                 }
             } catch (JSONException e) {
@@ -343,7 +355,7 @@ public class MainActivity extends Activity {
             }
         }
         return new JSONObject()
-                .put("ready", access && lib != null)
+                .put("ready", access) // with no games yet, the page opens Add games
                 .put("permission", access)
                 .put("library", lib != null)
                 .put("retroarch", true)
