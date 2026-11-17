@@ -73,12 +73,14 @@ public class MainActivity extends Activity {
     private Map<String, JSONObject> gamesById = Collections.emptyMap();
     private boolean firstResume = true;
     private GameInbox inbox;
+    private AppUpdate update;
     private String lastStickDir;
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
         prefs = getSharedPreferences("jlretro", MODE_PRIVATE);
+        update = new AppUpdate(this, prefs, () -> js("window.jlUpdateChanged && jlUpdateChanged()"));
         inbox = new GameInbox(root(), getCacheDir(), () -> {
             synchronized (MainActivity.this) { library = null; } // read library.json again
             js("window.jlLibraryChanged && jlLibraryChanged()");
@@ -123,6 +125,7 @@ public class MainActivity extends Activity {
             js("window.jlResume && jlResume()");
         }
         installLibraryCores();
+        update.checkDaily(settings().optBoolean("autoUpdate", true));
     }
 
     @Override
@@ -329,6 +332,9 @@ public class MainActivity extends Activity {
                     case "/api/favorite": return favorite(body.optString("id"), body.optBoolean("on")).toString();
                     case "/api/action": return action(body.optString("name"), body.optString("value")).toString();
                     case "/api/settings": return saveSettings(body).toString();
+                    case "/api/update": return update.status().toString();
+                    case "/api/update/check": update.check(); return update.status().toString();
+                    case "/api/update/install": return update.install().toString();
                     case "/api/inbox":
                         if (!hasStorageAccess()) return new JSONObject().put("folder", GameInbox.describe()).put("items", new JSONArray()).toString();
                         return inbox.list(library()).toString();
@@ -396,7 +402,7 @@ public class MainActivity extends Activity {
     // ---- The page's own settings: skin, your skins, Home dashboard, your dashboards, pinned games, scanlines ----
 
     private static final Set<String> PAGE_SETTINGS = new LinkedHashSet<>(java.util.Arrays.asList(
-            "skin", "skins", "homeLayout", "layouts", "pinned", "scanlines"));
+            "skin", "skins", "homeLayout", "layouts", "pinned", "scanlines", "autoUpdate"));
 
     private JSONObject settings() {
         try {
